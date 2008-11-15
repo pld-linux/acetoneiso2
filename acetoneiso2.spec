@@ -1,26 +1,26 @@
 Summary:	A complete software to manage CD/DVD images rich of features
+Summary(pl.UTF-8):	Kompletne oprogramowanie o dużych możliwościach do zarządzania obrazami CD/DVD
 Name:		acetoneiso2
 Version:	2.0.1
 Release:	0.1
 License:	GPL v3
-Group:		System/GUI/KDE
+Group:		X11/Applications/File
 Source0:	http://dl.sourceforge.net/acetoneiso2/%{name}_%{version}-source.tar.gz
 # Source0-md5:	ab7e77fdd5ca7f2407166338982ec819
-URL:		http://www.acetoneteam.org
-BuildRequires:	gcc
+URL:		http://www.acetoneteam.org/
+BuildRequires:	Qt3Support-devel >= 4.3.2
+BuildRequires:	QtGui-devel >= 4.3.2
+BuildRequires:	QtSql-devel >= 4.3.2
 BuildRequires:	glib2-devel
-BuildRequires:	libqt4 >= 4.3.2
-BuildRequires:	libqt4-devel >= 4.3.2
-BuildRequires:	libqt4-qt3support >= 4.3.2
-BuildRequires:	libqt4-sql >= 4.3.2
-BuildRequires:	libqt4-x11 >= 4.3.2
+BuildRequires:	qt4-build >= 4.3.2
+BuildRequires:	qt4-devel >= 4.3.2
+BuildRequires:	qt4-qmake >= 4.3.2
 BuildRequires:	libstdc++-devel
-BuildRequires:	update-desktop-files
 Requires:	cdrdao
 Requires:	cdrkit-cdrtools-compat
 Requires:	fuse
 Requires:	fuseiso
-Requires:	gpg2
+Requires:	gnupg2
 Requires:	mkisofs
 Requires:	p7zip
 Requires:	pinentry-qt
@@ -28,20 +28,25 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 A complete software to manage CD/DVD images rich of features. In
-example it can Mount typical proprietary images formats of the windows
+example it can mount typical proprietary images formats of the Windows
 world and do plenty of other things.
+
+%description -l pl.UTF-8
+Kompletne oprogramowanie o dużych możliwościach do zarządzania
+obrazami CD/DVD. Potrafi na przykład montować typowe własnościowe
+formaty obrazów spotykane w świecie Windows i wykonywać wiele innych
+czynności.
 
 %prep
 %setup -q -n %{name}
 
 %build
 cd src
-qmake
+qmake-qt4
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd src
 
 %{__make} -C src install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -55,6 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGELOG LICENSE README
 %attr(755,root,root) %{_bindir}/acetoneiso2
+# XXX: FIXME
 /opt/acetoneiso/isofolder
 /opt/acetoneiso/mfolder
 /opt/acetoneiso/smiso
